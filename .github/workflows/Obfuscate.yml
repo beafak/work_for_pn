@@ -1,5 +1,6 @@
 name: Build Obfuscate BPB Panel
 
+# Trigger the workflow on pushes to main and on the daily schedule.
 on:
   push:
     branches:
