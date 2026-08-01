@@ -1,1 +1,1 @@
-# work_for_pn
+Obfuscate.yml 为你的代码仓库创建了一个 action，它将在每次 main 分支有 push 时、每天1点钟下载最新的 BPB 源代码，并执行混淆。
