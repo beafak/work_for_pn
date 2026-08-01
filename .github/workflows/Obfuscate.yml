@@ -29,10 +29,18 @@ jobs:
         run: |
           npm install -g javascript-obfuscator
 
-      - name: Clone BPB workjs
+      - name: Download latest BPB source
         run: |
-          wget -O origin.js https://raw.githubusercontent.com/bia-pain-bache/BPB-Worker-Panel/refs/heads/main/build/unobfuscated-worker.js
-      
+          curl -L -H "User-Agent: Mozilla/5.0" -o bpb-source.zip https://codeload.github.com/bia-pain-bache/BPB-Worker-Panel/zip/refs/heads/main
+          unzip -q bpb-source.zip -d bpb-source
+          SOURCE_FILE=$(find bpb-source -type f -path '*/src/assets/panel/script.js' | head -n 1)
+          if [ -z "$SOURCE_FILE" ]; then
+            echo "Could not find a suitable JavaScript source file in the downloaded BPB source."
+            exit 1
+          fi
+          cp "$SOURCE_FILE" origin.js
+          rm -rf bpb-source bpb-source.zip
+
       - name: Obfuscate BPB worker js
         run: |
           javascript-obfuscator origin.js --output _worker.js \
